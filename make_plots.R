@@ -173,10 +173,10 @@ for (i in 3:ncol(pvalue_tab)) {
 }
 
 # Melt both rankings and p-values
-pvalue_melted <- melt(pvalue_tab, id.vars=c('pathway', 'num_genes'))
+pvalue_melted <- melt(pvalue_tab, id.vars=c('Pathway', 'Num_genes'))
 colnames(pvalue_melted) <- c('Pathway', 'Num_genes', 'Study', 'Pvalue')
 pvalue_melted$Pvalue <- -log(pvalue_melted$Pvalue, base=10) 
-rank_melted <- melt(rank_tab, id.vars=c('pathway', 'num_genes'))
+rank_melted <- melt(rank_tab, id.vars=c('Pathway', 'Num_genes'))
 colnames(rank_melted) <- c('Pathway', 'Num_genes', 'Study', 'Rank')
 
 # Remove NAs
@@ -197,24 +197,26 @@ pvalue_melted$Pathway <- factor(pvalue_melted$Pathway, levels=ref_dat$Pathway)
 rank_melted$Pathway <- factor(rank_melted$Pathway, levels=ref_dat$Pathway)
 
 # Plot and save pvalue heatmap
-setEPS()
-postscript("SuppFigure3.eps")
+#setEPS()
+#postscript("SuppFigure3.eps")
+jpeg('SuppFigure3.jpg')
 legend_lab <- expression(paste(-log[10], "(p-value)", sep=''))
 ggplot(pvalue_melted, aes(Pathway, Study, fill=Pvalue)) +
   geom_tile(color="white",size=0.1) +
   scale_fill_viridis(name=legend_lab) + 
-  labs(x="Gene Sets (K=593)", y="Dataset (M=17)") +
+  labs(x="Gene Sets (593 Total)", y="Dataset (21 Total)") +
   theme(axis.ticks=element_blank(), axis.text.x=element_blank()) 
 dev.off()
 
 # Plot and save rank heatmap
-setEPS()
-postscript("Figure2.eps")
+#setEPS()
+#postscript("Figure2.eps")
+jpeg('Figure2.jpg')
 legend_lab <- expression(paste("Rank", sep=''))
 ggplot(rank_melted, aes(Pathway, Study, fill=Rank)) +
   geom_tile(color="white",size=0.1) +
   scale_fill_viridis(name=legend_lab) + 
-  labs(x="Gene Sets (K=593)", y="Dataset (M=17)") +
+  labs(x="Gene Sets (593 Total)", y="Dataset (21 Total)") +
   theme(axis.ticks=element_blank(), axis.text.x=element_blank()) 
 dev.off()
 
